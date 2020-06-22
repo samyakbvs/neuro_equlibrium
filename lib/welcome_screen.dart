@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neuroequlibrium/edit_details.dart';
 import 'package:neuroequlibrium/reusable.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -7,6 +8,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  String uid;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +32,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   'Hi there! Welcome to NeuroEquilibrium\'s Migraine App. Let\'s get started to solve all your migraine woes. Enter your Neuro patient ID to get started!'),
               SizedBox(height: 25.0),
               TextField(
+                onChanged: (value) {
+                  uid = value;
+                },
                 decoration: kInputStyle.copyWith(hintText: 'UID'),
               ),
               SizedBox(height: 25.0),
               RoundedButton(
                 color: Colors.blueAccent,
                 text: 'Submit',
+                onPressed: () {
+                  // UID validation
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditDetails(),
+                    ),
+                  );
+                },
               )
             ],
           ),

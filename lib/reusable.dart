@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+class TextLabel extends StatelessWidget {
+  String label;
+
+  TextLabel(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 10.0,
+        ),
+        child: Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        ),
+      ),
+    );
+  }
+}
+
 const kInputStyle = InputDecoration(
   hintText: '',
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

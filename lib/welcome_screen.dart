@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neuroequlibrium/reusable.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -13,23 +14,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         title: Text('Welcome'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: Image.asset('images/neurologo.png'),
-              height: 180.0,
-            ),
-            Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                'App name',
-                style: TextStyle(
-                  fontSize: 36.0,
-                ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                'images/neurologo.png',
+                height: 150,
+                width: 150,
               ),
-            )
-          ],
+              SizedBox(height: 25.0),
+              Text(
+                  'Hi there! Welcome to NeuroEquilibrium\'s Migraine App. Let\'s get started to solve all your migraine woes. Enter your Neuro patient ID to get started!'),
+              SizedBox(height: 25.0),
+              TextField(
+                decoration: kInputStyle.copyWith(hintText: 'UID'),
+              ),
+              SizedBox(height: 25.0),
+              RoundedButton(
+                color: Colors.blueAccent,
+                text: 'Submit',
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+final NumberTextStyle = TextStyle(
+  fontSize: 50.0,
+  fontWeight: FontWeight.w900,
+);
+final LabelTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: Color(0xFF8D8E98),
+);
+
 class TextLabel extends StatelessWidget {
   String label;
 

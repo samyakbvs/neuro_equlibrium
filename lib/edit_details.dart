@@ -59,8 +59,9 @@ class _EditDetailsState extends State<EditDetails> {
                   text: 'Verify',
                   onPressed: () {
                     // Update Details & Redirect user
+                    Navigator.pushNamed(context, 'additional_details1');
                   },
-                )
+                ),
               ],
             ),
           ),

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "766554364500",
+    "firebase_url": "https://migraine-app-7f89f.firebaseio.com",
+    "project_id": "migraine-app-7f89f",
+    "storage_bucket": "migraine-app-7f89f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766554364500:android:8c74a4860a42341d2aabc1",
+        "android_client_info": {
+          "package_name": "com.samyakbvs.neuroequlibrium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766554364500-ommlc4rkhnqtophcvp73o3606kqlkqnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZBgfex2u8oQUY_SrjL3vaX4d8Cwievpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766554364500-ommlc4rkhnqtophcvp73o3606kqlkqnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

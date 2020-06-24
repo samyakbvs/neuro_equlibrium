@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neuroequlibrium/edit_details.dart';
 import 'package:neuroequlibrium/reusable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -8,7 +9,21 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  var firebaseAuth;
+  void instance() async {
+    firebaseAuth = await FirebaseAuth.instance;
+  }
+
   String uid;
+  String phone = '+1 6505553434';
+  String smsCode = '123456';
+  String actualCode;
+  String status;
+  AuthCredential _authCredential;
+
+  void onAuthenticationSuccessful(BuildContext context) {
+    Navigator.pushNamed(context, 'edit_details');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +46,146 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Text(
                   'Hi there! Welcome to NeuroEquilibrium\'s Migraine App. Let\'s get started to solve all your migraine woes. Enter your Neuro patient ID to get started!'),
               SizedBox(height: 25.0),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      onChanged: (value) {
+                        phone = '+91 $value';
+                      },
+                      decoration: kInputStyle.copyWith(hintText: 'Phone No.'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: RoundedButton(
+                      color: Colors.blueAccent,
+                      text: 'Send OTP',
+                      onPressed: () async {
+                        instance();
+                        final PhoneCodeSent codeSent = (String verificationId,
+                            [int forceResendingToken]) async {
+                          this.actualCode = verificationId;
+                          setState(() {
+                            print('Code sent to $phone');
+                            status =
+                                "\nEnter the code sent to " + phone.toString();
+                          });
+                        };
+
+                        final PhoneCodeAutoRetrievalTimeout
+                            codeAutoRetrievalTimeout = (String verificationId) {
+                          this.actualCode = verificationId;
+                          setState(() {
+                            status = "\nAuto retrieval time out";
+                          });
+                        };
+
+                        final PhoneVerificationFailed verificationFailed =
+                            (AuthException authException) {
+                          setState(() {
+                            status = '${authException.message}';
+
+                            print("Error message: " + status);
+                            if (authException.message
+                                .contains('not authorized'))
+                              status =
+                                  'Something has gone wrong, please try later';
+                            else if (authException.message.contains('Network'))
+                              status =
+                                  'Please check your internet connection and try again';
+                            else
+                              status =
+                                  'Something has gone wrong, please try later';
+                          });
+                        };
+
+                        final PhoneVerificationCompleted verificationCompleted =
+                            (AuthCredential auth) {
+                          setState(() {
+                            status = 'Auto retrieving verification code';
+                          });
+                          //_authCredential = auth;
+
+                          firebaseAuth
+                              .signInWithCredential(_authCredential)
+                              .then((AuthResult value) {
+                            if (value.user != null) {
+                              setState(() {
+                                status = 'Authentication successful';
+                              });
+                              onAuthenticationSuccessful(context);
+                            } else {
+                              setState(() {
+                                status = 'Invalid code/invalid authentication';
+                              });
+                            }
+                          }).catchError((error) {
+                            setState(() {
+                              status =
+                                  'Something has gone wrong, please try later';
+                            });
+                          });
+                        };
+
+                        firebaseAuth.verifyPhoneNumber(
+                            phoneNumber: phone.toString(),
+                            timeout: Duration(seconds: 60),
+                            verificationCompleted: verificationCompleted,
+                            verificationFailed: verificationFailed,
+                            codeSent: codeSent,
+                            codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) => EditDetails(),
+//                    ),
+//                  );
+                      },
+                    ),
+                  ),
+                ],
+              ),
               TextField(
                 onChanged: (value) {
-                  uid = value;
+                  smsCode = value;
                 },
-                decoration: kInputStyle.copyWith(hintText: 'UID'),
+                decoration: kInputStyle.copyWith(hintText: 'OTP'),
               ),
               SizedBox(height: 25.0),
               RoundedButton(
                 color: Colors.blueAccent,
-                text: 'Submit',
-                onPressed: () {
-                  // UID validation
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditDetails(),
-                    ),
-                  );
+                text: 'Verify',
+                onPressed: () async {
+                  void _signInWithPhoneNumber(String smsCode) async {
+                    _authCredential = await PhoneAuthProvider.getCredential(
+                        verificationId: actualCode, smsCode: smsCode);
+                    print("Actual Code: $actualCode");
+                    print("Sms Code: $smsCode");
+                    firebaseAuth
+                        .signInWithCredential(_authCredential)
+                        .then((AuthResult auth) async {
+                      setState(() {
+                        print('successs');
+                        status = 'Authentication successful';
+                      });
+                      onAuthenticationSuccessful(context);
+                    }).catchError((error) {
+                      setState(() {
+                        print(phone);
+                        print(smsCode);
+                        print('errrrror');
+                        print(error);
+                        status = 'Something has gone wrong, please try later';
+                      });
+                    });
+                  }
+
+                  _signInWithPhoneNumber(smsCode);
                 },
-              )
+              ),
             ],
           ),
         ),

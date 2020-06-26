@@ -14,6 +14,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     firebaseAuth = await FirebaseAuth.instance;
   }
 
+//  FirebaseUser user;
+  final _auth = FirebaseAuth.instance;
+
   String uid;
   String phone = '+1 6505553434';
   String smsCode = '123456';
@@ -157,30 +160,47 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(height: 25.0),
               RoundedButton(
                 color: Colors.blueAccent,
-                text: 'Verify',
+                text: 'Proceed',
                 onPressed: () async {
                   void _signInWithPhoneNumber(String smsCode) async {
                     _authCredential = await PhoneAuthProvider.getCredential(
                         verificationId: actualCode, smsCode: smsCode);
                     print("Actual Code: $actualCode");
                     print("Sms Code: $smsCode");
-                    firebaseAuth
-                        .signInWithCredential(_authCredential)
-                        .then((AuthResult auth) async {
-                      setState(() {
-                        print('successs');
-                        status = 'Authentication successful';
-                      });
-                      onAuthenticationSuccessful(context);
-                    }).catchError((error) {
-                      setState(() {
-                        print(phone);
-                        print(smsCode);
-                        print('errrrror');
-                        print(error);
-                        status = 'Something has gone wrong, please try later';
-                      });
-                    });
+                    try {
+                      final user =
+                          await _auth.signInWithCredential(_authCredential);
+                      if (user != null) {
+                        setState(() {
+                          print('successs');
+                          status = 'Authentication successful';
+                        });
+                        onAuthenticationSuccessful(context);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+//                    final user = await firebaseAuth
+//                        .signInWithCredential(_authCredential)
+//                        .then((AuthResult auth) async {
+//                      setState(() {
+//                        print('successs');
+//                        status = 'Authentication successful';
+//                      });
+//                      if (user != null) {
+//                        onAuthenticationSuccessful(context);
+//                      } else {
+//                        print('null user');
+//                      }
+//                    }).catchError((error) {
+//                      setState(() {
+//                        print(phone);
+//                        print(smsCode);
+//                        print('errrrror');
+//                        print(error);
+//                        status = 'Something has gone wrong, please try later';
+//                      });
+//                    });
                   }
 
                   _signInWithPhoneNumber(smsCode);

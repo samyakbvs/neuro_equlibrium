@@ -7,7 +7,7 @@ class AdditionalDetails1 extends StatefulWidget {
 }
 
 class _AdditionalDetails1State extends State<AdditionalDetails1> {
-  int height = 180;
+  int height = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +53,10 @@ class _AdditionalDetails1State extends State<AdditionalDetails1> {
                       height.toString(),
                       style: NumberTextStyle,
                     ),
-                    Text(
-                      'cm',
-                      style: LabelTextStyle,
-                    )
+//                    Text(
+//                      'cm',
+//                      style: LabelTextStyle,
+//                    )
                   ],
                 ),
                 SliderTheme(
@@ -67,8 +67,8 @@ class _AdditionalDetails1State extends State<AdditionalDetails1> {
                   ),
                   child: Slider(
                     value: height.toDouble(),
-                    min: 120.0,
-                    max: 220.0,
+                    min: 0.0,
+                    max: 20.0,
                     onChanged: (double newValue) {
                       setState(() {
                         height = newValue.round();

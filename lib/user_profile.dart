@@ -52,7 +52,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify your details'),
+        title: Text('Profile'),
       ),
       body: Center(
         child: Container(
@@ -70,6 +70,14 @@ class _UserProfileState extends State<UserProfile> {
                 Text("Name: $user_name"),
                 Text("DOB: $user_dob"),
                 Text("Sex: $user_gender"),
+                RoundedButton(
+                  color: Colors.blueAccent,
+                  text: 'Edit',
+                  onPressed: () {
+                    // Upload details & Redirect user
+                    Navigator.pushNamed(context, 'edit_details');
+                  },
+                ),
               ],
             ),
           ),

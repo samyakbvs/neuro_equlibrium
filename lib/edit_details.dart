@@ -52,7 +52,7 @@ class _EditDetailsState extends State<EditDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify your details'),
+        title: Text('Edit your profile'),
       ),
       body: Center(
         child: Container(
@@ -106,7 +106,7 @@ class _EditDetailsState extends State<EditDetails> {
                 SizedBox(height: 30.0),
                 RoundedButton(
                   color: Colors.blueAccent,
-                  text: 'Verify',
+                  text: 'Submit',
                   onPressed: () async {
                     // Update Details & Redirect user
                     final doc = _firestore

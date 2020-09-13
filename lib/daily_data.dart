@@ -15,6 +15,9 @@ class _DailyDataState extends State<DailyData> {
   String user_name;
   String user_gender;
   String user_dob;
+  int sleep = 8;
+  int exercise = 2;
+  int sun = 1;
 
   void getCurrentUser() async {
     final user = await _auth.currentUser();
@@ -52,7 +55,7 @@ class _DailyDataState extends State<DailyData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify your details'),
+        title: Text('Add daily data'),
       ),
       body: Center(
         child: Container(
@@ -67,7 +70,147 @@ class _DailyDataState extends State<DailyData> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text("Upload data"),
+                Text(
+                  'How often did you experience a migraine attack in the last 30 days?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+                    Text(
+                      sleep.toString(),
+                      style: NumberTextStyle,
+                    ),
+//                    Text(
+//                      'cm',
+//                      style: LabelTextStyle,
+//                    )
+                  ],
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                  ),
+                  child: Slider(
+                    value: sleep.toDouble(),
+                    min: 0.0,
+                    max: 20.0,
+                    onChanged: (double newValue) {
+                      setState(() {
+                        sleep = newValue.round();
+                      });
+                    },
+                  ),
+                ),
+                Text(
+                  'How often did you experience a migraine attack in the last 30 days?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+                    Text(
+                      exercise.toString(),
+                      style: NumberTextStyle,
+                    ),
+//                    Text(
+//                      'cm',
+//                      style: LabelTextStyle,
+//                    )
+                  ],
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                  ),
+                  child: Slider(
+                    value: exercise.toDouble(),
+                    min: 0.0,
+                    max: 20.0,
+                    onChanged: (double newValue) {
+                      setState(() {
+                        exercise = newValue.round();
+                      });
+                    },
+                  ),
+                ),
+                Text(
+                  'How often did you experience a migraine attack in the last 30 days?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+                    Text(
+                      sun.toString(),
+                      style: NumberTextStyle,
+                    ),
+//                    Text(
+//                      'cm',
+//                      style: LabelTextStyle,
+//                    )
+                  ],
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    thumbColor: Colors.white,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                  ),
+                  child: Slider(
+                    value: sun.toDouble(),
+                    min: 0.0,
+                    max: 20.0,
+                    onChanged: (double newValue) {
+                      setState(() {
+                        sun = newValue.round();
+                      });
+                    },
+                  ),
+                ),
+                RoundedButton(
+                  color: Colors.blueAccent,
+                  text: 'Submit',
+                  onPressed: () async {
+                    await _firestore
+                        .collection("dataDaily")
+                        .document(loggedInUser.uid)
+                        .setData({
+                      'sleep': sleep,
+                      'exercise': exercise,
+                      'sun': sun,
+                    });
+                    Navigator.pushNamed(context, 'dashboard');
+                  },
+                ),
               ],
             ),
           ),

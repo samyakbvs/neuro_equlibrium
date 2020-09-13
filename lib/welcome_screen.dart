@@ -25,7 +25,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   AuthCredential _authCredential;
 
   void onAuthenticationSuccessful(BuildContext context) {
-    Navigator.pushNamed(context, 'edit_details');
+    Navigator.pushNamed(context, 'dashboard');
   }
 
   @override

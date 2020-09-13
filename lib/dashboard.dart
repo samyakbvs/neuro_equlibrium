@@ -52,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Verify your details'),
+        title: Text('Dashboard'),
       ),
       body: Center(
         child: Container(

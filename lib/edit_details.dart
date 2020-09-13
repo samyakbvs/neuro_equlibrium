@@ -18,23 +18,27 @@ class _EditDetailsState extends State<EditDetails> {
 
   void getCurrentUser() async {
     final user = await _auth.currentUser();
-    try {
-      if (user != null) {
-        final snapShot = await _firestore
-            .collection('userProfiles')
-            .document(user.uid)
-            .get();
+//    try {
+    if (user != null) {
+      final snapShot =
+          await _firestore.collection('userProfiles').document(user.uid).get();
 
-        setState(() {
-          loggedInUser = user;
-          user_name = snapShot.data['FullName'];
-          user_gender = snapShot.data['Sex'];
-          user_dob = snapShot.data['Dob'];
-        });
-      }
-    } catch (e) {
-      print(e);
+      print("****SUCCESS****");
+      print(snapShot);
+
+      setState(() {
+        loggedInUser = user;
+        user_name = snapShot.data['FullName'];
+        user_gender = snapShot.data['Sex'];
+        user_dob = snapShot.data['Dob'];
+      });
     }
+//    }
+//    catch (e) {
+//      print("****Error****");
+//      print(e);
+//      print("****Error****");
+//    }
   }
 
   void initState() {
@@ -78,7 +82,9 @@ class _EditDetailsState extends State<EditDetails> {
                   onChanged: (value) {
                     user_dob = value;
                   },
-                  decoration: kInputStyle.copyWith(hintText: user_dob),
+                  decoration: kInputStyle.copyWith(
+                    hintText: user_dob,
+                  ),
                 ),
                 SizedBox(height: 25.0),
                 TextLabel('Sex'),
@@ -86,7 +92,9 @@ class _EditDetailsState extends State<EditDetails> {
                   onChanged: (value) {
                     user_gender = value;
                   },
-                  decoration: kInputStyle.copyWith(hintText: user_gender),
+                  decoration: kInputStyle.copyWith(
+                    hintText: user_gender,
+                  ),
                 ),
                 SizedBox(height: 25.0),
 //                TextLabel('Phone No.'),
@@ -109,7 +117,7 @@ class _EditDetailsState extends State<EditDetails> {
                       'Dob': user_dob,
                       'Sex': user_gender,
                     });
-                    Navigator.pushNamed(context, 'additional_details1');
+                    Navigator.pushNamed(context, 'dashboard');
                   },
                 ),
               ],

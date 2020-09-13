@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neuroequlibrium/welcome_screen.dart';
 import 'package:neuroequlibrium/edit_details.dart';
 import 'package:neuroequlibrium/additional_details.dart';
+import 'package:neuroequlibrium/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
           'welcome_screen': (context) => WelcomeScreen(),
           'edit_details': (context) => EditDetails(),
           'additional_details1': (context) => AdditionalDetails1(),
-          'additional_details2': (context) => AdditionalDetails2(),
+          'dashboard': (context) => Dashboard(),
+//          'additional_details2': (context) => AdditionalDetails2(),
         });
   }
 }

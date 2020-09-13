@@ -3,12 +3,12 @@ import 'package:neuroequlibrium/reusable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Dashboard extends StatefulWidget {
+class UserProfile extends StatefulWidget {
   @override
-  _DashboardState createState() => _DashboardState();
+  _UserProfileState createState() => _UserProfileState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _UserProfileState extends State<UserProfile> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedInUser;
@@ -67,38 +67,9 @@ class _DashboardState extends State<Dashboard> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                RoundedButton(
-                  color: Colors.blueAccent,
-                  text: 'Profile',
-                  onPressed: () async {
-                    // Update Details & Redirect user
-                    final doc = _firestore
-                        .collection('userProfiles')
-                        .document(loggedInUser.uid);
-                    doc.updateData({
-                      'FullName': user_name,
-                      'Dob': user_dob,
-                      'Sex': user_gender,
-                    });
-                    Navigator.pushNamed(context, 'user_profile');
-                  },
-                ),
-                RoundedButton(
-                  color: Colors.blueAccent,
-                  text: 'Daily data',
-                  onPressed: () async {
-                    // Update Details & Redirect user
-                    final doc = _firestore
-                        .collection('userProfiles')
-                        .document(loggedInUser.uid);
-                    doc.updateData({
-                      'FullName': user_name,
-                      'Dob': user_dob,
-                      'Sex': user_gender,
-                    });
-                    Navigator.pushNamed(context, 'daily_data');
-                  },
-                ),
+                Text("Name: $user_name"),
+                Text("DOB: $user_dob"),
+                Text("Sex: $user_gender"),
               ],
             ),
           ),

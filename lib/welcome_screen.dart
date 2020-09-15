@@ -18,8 +18,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final _auth = FirebaseAuth.instance;
 
   String uid;
-  String phone = '+1 6505553434';
-  String smsCode = '123456';
+  String email = 'xyz@gmail.com';
+  String password = 'password';
   String actualCode;
   String status;
   AuthCredential _authCredential;
@@ -52,158 +52,146 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 2,
+//                    flex: 2,
                     child: TextField(
                       onChanged: (value) {
-                        phone = '+91 $value';
+                        email = value;
                       },
-                      decoration: kInputStyle.copyWith(hintText: 'Phone No.'),
+                      decoration: kInputStyle.copyWith(hintText: 'Email'),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: RoundedButton(
-                      color: Colors.blueAccent,
-                      text: 'Send OTP',
-                      onPressed: () async {
-                        instance();
-                        final PhoneCodeSent codeSent = (String verificationId,
-                            [int forceResendingToken]) async {
-                          this.actualCode = verificationId;
-                          setState(() {
-                            print('Code sent to $phone');
-                            status =
-                                "\nEnter the code sent to " + phone.toString();
-                          });
-                        };
-
-                        final PhoneCodeAutoRetrievalTimeout
-                            codeAutoRetrievalTimeout = (String verificationId) {
-                          this.actualCode = verificationId;
-                          setState(() {
-                            status = "\nAuto retrieval time out";
-                          });
-                        };
-
-                        final PhoneVerificationFailed verificationFailed =
-                            (AuthException authException) {
-                          setState(() {
-                            status = '${authException.message}';
-
-                            print("Error message: " + status);
-                            if (authException.message
-                                .contains('not authorized'))
-                              status =
-                                  'Something has gone wrong, please try later';
-                            else if (authException.message.contains('Network'))
-                              status =
-                                  'Please check your internet connection and try again';
-                            else
-                              status =
-                                  'Something has gone wrong, please try later';
-                          });
-                        };
-
-                        final PhoneVerificationCompleted verificationCompleted =
-                            (AuthCredential auth) {
-                          setState(() {
-                            status = 'Auto retrieving verification code';
-                          });
-                          //_authCredential = auth;
-
-                          firebaseAuth
-                              .signInWithCredential(_authCredential)
-                              .then((AuthResult value) {
-                            if (value.user != null) {
-                              setState(() {
-                                status = 'Authentication successful';
-                              });
-                              onAuthenticationSuccessful(context);
-                            } else {
-                              setState(() {
-                                status = 'Invalid code/invalid authentication';
-                              });
-                            }
-                          }).catchError((error) {
-                            setState(() {
-                              status =
-                                  'Something has gone wrong, please try later';
-                            });
-                          });
-                        };
-
-                        firebaseAuth.verifyPhoneNumber(
-                            phoneNumber: phone.toString(),
-                            timeout: Duration(seconds: 60),
-                            verificationCompleted: verificationCompleted,
-                            verificationFailed: verificationFailed,
-                            codeSent: codeSent,
-                            codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-
+//                  Expanded(
+//                    flex: 1,
+//                    child: RoundedButton(
+//                      color: Colors.blueAccent,
+//                      text: 'Send OTP',
+//                      onPressed: () async {
+//                        instance();
+//                        final PhoneCodeSent codeSent = (String verificationId,
+//                            [int forceResendingToken]) async {
+//                          this.actualCode = verificationId;
+//                          setState(() {
+//                            print('Code sent to $phone');
+//                            status =
+//                                "\nEnter the code sent to " + phone.toString();
+//                          });
+//                        };
+//
+//                        final PhoneCodeAutoRetrievalTimeout
+//                            codeAutoRetrievalTimeout = (String verificationId) {
+//                          this.actualCode = verificationId;
+//                          setState(() {
+//                            status = "\nAuto retrieval time out";
+//                          });
+//                        };
+//
+//                        final PhoneVerificationFailed verificationFailed =
+//                            (AuthException authException) {
+//                          setState(() {
+//                            status = '${authException.message}';
+//
+//                            print("Error message: " + status);
+//                            if (authException.message
+//                                .contains('not authorized'))
+//                              status =
+//                                  'Something has gone wrong, please try later';
+//                            else if (authException.message.contains('Network'))
+//                              status =
+//                                  'Please check your internet connection and try again';
+//                            else
+//                              status =
+//                                  'Something has gone wrong, please try later';
+//                          });
+//                        };
+//
+//                        final PhoneVerificationCompleted verificationCompleted =
+//                            (AuthCredential auth) {
+//                          setState(() {
+//                            status = 'Auto retrieving verification code';
+//                          });
+//                          //_authCredential = auth;
+//
+//                          firebaseAuth
+//                              .signInWithCredential(_authCredential)
+//                              .then((AuthResult value) {
+//                            if (value.user != null) {
+//                              setState(() {
+//                                status = 'Authentication successful';
+//                              });
+//                              onAuthenticationSuccessful(context);
+//                            } else {
+//                              setState(() {
+//                                status = 'Invalid code/invalid authentication';
+//                              });
+//                            }
+//                          }).catchError((error) {
+//                            setState(() {
+//                              status =
+//                                  'Something has gone wrong, please try later';
+//                            });
+//                          });
+//                        };
+//
+//                        firebaseAuth.verifyPhoneNumber(
+//                            phoneNumber: phone.toString(),
+//                            timeout: Duration(seconds: 60),
+//                            verificationCompleted: verificationCompleted,
+//                            verificationFailed: verificationFailed,
+//                            codeSent: codeSent,
+//                            codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+//
 //                  Navigator.push(
 //                    context,
 //                    MaterialPageRoute(
 //                      builder: (context) => EditDetails(),
 //                    ),
 //                  );
-                      },
-                    ),
-                  ),
+////
+//                      },
+//                    ),
+//                  ),
                 ],
               ),
               TextField(
                 onChanged: (value) {
-                  smsCode = value;
+                  password = value;
                 },
-                decoration: kInputStyle.copyWith(hintText: 'OTP'),
+                decoration: kInputStyle.copyWith(hintText: 'password'),
               ),
               SizedBox(height: 25.0),
               RoundedButton(
                 color: Colors.blueAccent,
                 text: 'Proceed',
                 onPressed: () async {
-                  void _signInWithPhoneNumber(String smsCode) async {
-                    _authCredential = await PhoneAuthProvider.getCredential(
-                        verificationId: actualCode, smsCode: smsCode);
-                    print("Actual Code: $actualCode");
-                    print("Sms Code: $smsCode");
-                    try {
-                      final user =
-                          await _auth.signInWithCredential(_authCredential);
-                      if (user != null) {
-                        setState(() {
-                          print('successs');
-                          status = 'Authentication successful';
-                        });
-                        onAuthenticationSuccessful(context);
-                      }
-                    } catch (e) {
-                      print(e);
+                  try {
+                    final user = await _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (user != null) {
+                      Navigator.pushNamed(context, 'chat_screen');
                     }
-//                    final user = await firebaseAuth
-//                        .signInWithCredential(_authCredential)
-//                        .then((AuthResult auth) async {
-//                      setState(() {
-//                        print('successs');
-//                        status = 'Authentication successful';
-//                      });
-//                      if (user != null) {
-//                        onAuthenticationSuccessful(context);
-//                      } else {
-//                        print('null user');
-//                      }
-//                    }).catchError((error) {
-//                      setState(() {
-//                        print(phone);
-//                        print(smsCode);
-//                        print('errrrror');
-//                        print(error);
-//                        status = 'Something has gone wrong, please try later';
-//                      });
-//                    });
+                  } catch (e) {
+                    print(e);
                   }
-
-                  _signInWithPhoneNumber(smsCode);
+                  onAuthenticationSuccessful(context);
+//                  void _signInWithPhoneNumber(String smsCode) async {
+//                    _authCredential = await PhoneAuthProvider.getCredential(
+//                        verificationId: actualCode, smsCode: smsCode);
+//                    print("Actual Code: $actualCode");
+//                    print("Sms Code: $smsCode");
+//                    try {
+//                      final user =
+//                          await _auth.signInWithCredential(_authCredential);
+//                      if (user != null) {
+//                        setState(() {
+//                          print('successs');
+//                          status = 'Authentication successful';
+//                        });
+//                        onAuthenticationSuccessful(context);
+//                      }
+//                    } catch (e) {
+//                      print(e);
+//                    }
+//                  },
                 },
               ),
             ],
